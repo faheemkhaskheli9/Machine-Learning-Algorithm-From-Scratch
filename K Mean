@@ -1,0 +1,62 @@
+def create_new_clusters():
+    clusters = dict()
+    for i in range(k):
+        clusters[str(i)] = list()
+    return clusters
+    
+def euclidean_distance(point_1,point_2):
+    distance = 0
+    for i in range( len(point_1) ):
+        distance += (point_1[i] - point_2[i])**2
+    distance = distance**0.5
+    return distance
+    
+def new_centroids(k,clusters,centroids):
+    for c in range(k):
+        sums = clusters[str(c)][0]
+        for p in clusters[str(c)][1:]:
+            new_p = []
+            for d in range(len(p)):
+                new_p.append(p[d] + sums[d])
+            sums = new_p
+        for i in range(len(sums)):
+            sums[i] /= len(clusters[str(c)])
+        centroids[c] = sums
+    return centroids
+    
+def sort_cluster(all_distances,data):
+    clusters = create_new_clusters()
+    for i in range(len(all_distances)):
+        min_k = 0
+        for c in range(k):
+            if all_distances[i][c] < all_distances[i][min_k]:
+                min_k = c
+        clusters[str(min_k)].append(data[i])
+    return clusters
+    
+def KMean(k,max_iteration,data):
+    centroids = list()
+    for i in range(k):
+        centroids.append(data[i])
+    for iti in range(1,max_iteration):
+        all_distances = list()
+        for p in data:
+            d = list()
+            for c in centroids:
+                d.append( euclidean_distance(c,p) )
+            all_distances.append(d)
+        clusters = sort_cluster(all_distances,data)
+        print('Iteration = ',iti)
+        print('Cluster = ',sort_cluster(all_distances,data))
+        centroids = new_centroids(k,clusters,centroids)
+        print('Centroid = ',new_centroids(k,clusters,centroids))
+        print()
+  
+ data = [
+        [0,0],
+        [0,1],
+        [1,0],
+        [1,1],
+        ]
+        
+KMean(2,10,data)  
