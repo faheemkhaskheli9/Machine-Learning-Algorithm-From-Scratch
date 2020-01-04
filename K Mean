@@ -1,4 +1,4 @@
-def create_new_clusters():
+def create_new_clusters(k):
     clusters = dict()
     for i in range(k):
         clusters[str(i)] = list()
@@ -24,8 +24,8 @@ def new_centroids(k,clusters,centroids):
         centroids[c] = sums
     return centroids
     
-def sort_cluster(all_distances,data):
-    clusters = create_new_clusters()
+def sort_cluster(k,all_distances,data):
+    clusters = create_new_clusters(k)
     for i in range(len(all_distances)):
         min_k = 0
         for c in range(k):
@@ -45,18 +45,18 @@ def KMean(k,max_iteration,data):
             for c in centroids:
                 d.append( euclidean_distance(c,p) )
             all_distances.append(d)
-        clusters = sort_cluster(all_distances,data)
+        clusters = sort_cluster(k,all_distances,data)
         print('Iteration = ',iti)
-        print('Cluster = ',sort_cluster(all_distances,data))
+        print('Cluster = ',sort_cluster(k,all_distances,data))
         centroids = new_centroids(k,clusters,centroids)
         print('Centroid = ',new_centroids(k,clusters,centroids))
         print()
   
- data = [
+data = [
         [0,0],
         [0,1],
         [1,0],
         [1,1],
         ]
         
-KMean(2,10,data)  
+KMean(2,10,data) 
